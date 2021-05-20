@@ -371,14 +371,15 @@ manipulate alembic configuration, extract database connection string from
 butler configuration, and interpret contents of ``butler_attributes`` table.
 
 Initial version of such interface was implemented in a separate package
-``daf_butler_smig`` on top of the ``butler`` extensible CLI. Below is the
+``daf_butler_migrate`` on top of the ``butler`` extensible CLI. Below is the
 brief description of available sub-commands. There are two major groups of
 commands, those that manage migration history as a set of scripts and folders
 on local file system, and those that work with the database performing checks
 or schema upgrades.
 
-By default location of migration scripts is in ``$DAF_BUTLER_SMIG/migrations``
-folder, it can be changed with ``--mig-path=PATH`` option.
+By default location of migration scripts is in
+``$DAF_BUTLER_MIGRATE/migrations`` folder, it can be changed with
+``--mig-path=PATH`` option.
 
 
 Make revision tree
@@ -386,7 +387,7 @@ Make revision tree
 
 Usage::
 
-    butler smig-add-tree [--one-shot] TREE_NAME
+    butler migrate-add-tree [--one-shot] TREE_NAME
 
 Creates new revision tree, ``TREE_NAME`` is a manager type name (e.g.
 "datasets") for regular trees or a manager name and special migration name
@@ -398,7 +399,7 @@ List revision trees
 
 Usage::
 
-    butler smig-trees [--one-shot] [-v|--verbose]
+    butler migrate-trees [--one-shot] [-v|--verbose]
 
 Prints a list of regular tree names, or special one-shot trees.
 
@@ -408,7 +409,7 @@ Make new revision
 
 Usage::
 
-    butler smig-revision [--one-shot] TREE_NAME MANAGER_CLASS VERSION
+    butler migrate-revision [--one-shot] TREE_NAME MANAGER_CLASS VERSION
 
 Generates new migration script for migrating from most recent version of a
 manager class defined in history to a new version. ``MANAGER_CLASS`` is a
@@ -420,7 +421,7 @@ Show revision history
 
 Usage::
 
-   butler smig-history [--one-shot] [-v|--verbose] [TREE_NAME]
+   butler migrate-history [--one-shot] [-v|--verbose] [TREE_NAME]
 
 Print revision history, possibly limiting it to a single tree.
 
@@ -430,7 +431,7 @@ Stamp alembic_version table
 
 Usage::
 
-    butler smig-stamp [--purge] REPO
+    butler migrate-stamp [--purge] REPO
 
 Fills ``alembic_version`` table with the revision names derived from current
 versions defined in ``butler_attributes`` table.
@@ -441,7 +442,7 @@ Display current database revisions
 
 Usage::
 
-    butler smig-current [--butler] [-v|--verbose] REPO
+    butler migrate-current [--butler] [-v|--verbose] REPO
 
 Prints revisions defined currently in ``alembic_version`` table or in
 ``butler_attributes`` table if ``--butler`` option is specified.
@@ -452,7 +453,7 @@ Upgrade database schema
 
 Usage::
 
-    butler smig-upgrade [--one-shot-tree=TREE_NAME] [--sql] REPO REVISION
+    butler migrate-upgrade [--one-shot-tree=TREE_NAME] [--sql] REPO REVISION
 
 Upgrades database schema to a given revision using regular migration trees or
 a special one-shot tree if ``--one-shot-tree`` is given.
@@ -463,9 +464,9 @@ Downgrade database schema
 
 Usage::
 
-    butler smig-downgrade [--one-shot-tree=TREE_NAME] [--sql] REPO REVISION
+    butler migrate-downgrade [--one-shot-tree=TREE_NAME] [--sql] REPO REVISION
 
-Similar to ``smig-upgrade` but works in opposite direction.
+Similar to ``migrate-upgrade` but works in opposite direction.
 
 
 
